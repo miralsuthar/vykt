@@ -62,7 +62,7 @@ export default function Home() {
             draggable="false"
           />
         </div>
-        <button className="px-5 py-2 bg-slate-800 rounded-lg text-[1.4rem] text-gray-400">
+        <button className="px-5 hover:scale-110 transition-all duration-300 cursor-not-allowed ease-in py-2 bg-slate-800 rounded-lg text-[1.4rem] text-gray-400">
           coming soon
         </button>
       </main>

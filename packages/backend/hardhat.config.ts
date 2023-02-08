@@ -1,18 +1,18 @@
-import '@nomiclabs/hardhat-waffle';
-import * as dotenv from 'dotenv';
-import { HardhatUserConfig } from 'hardhat/config';
-import 'hardhat-deploy';
-import '@nomiclabs/hardhat-ethers';
-import '@nomiclabs/hardhat-etherscan';
+import "@nomiclabs/hardhat-waffle";
+import * as dotenv from "dotenv";
+import { HardhatUserConfig } from "hardhat/config";
+import "hardhat-deploy";
+import "@nomiclabs/hardhat-ethers";
+import "@nomiclabs/hardhat-etherscan";
 
-dotenv.config({ path: '../../.env' });
-const defaultNetwork = 'localhost';
+dotenv.config({ path: "../../.env" });
+const defaultNetwork = "localhost";
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
 const config: HardhatUserConfig = {
-  solidity: '0.8.10',
+  solidity: "0.8.10",
   defaultNetwork,
 
   networks: {
@@ -76,6 +76,12 @@ const config: HardhatUserConfig = {
     //   url: `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`,
     //   url: `https://polygon-mumbai.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`,
     //   accounts: [`${process.env.PRIVATE_KEY}`],
+    // },
+
+    // mantle-testnet: {
+    //  chainId: 5001,
+    //  url: `https://rpc.testnet.mantle.xyz/`,
+    //  accounts: [`${process.env.PRIVATE_KEY}`],
     // },
   },
   namedAccounts: {

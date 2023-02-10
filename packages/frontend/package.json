@@ -10,11 +10,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/font": "^13.1.6",
     "@rainbow-me/rainbowkit": "^0.8.1",
+    "clsx": "^1.2.1",
     "ethers": "^5.7.2",
     "next": "^13.1.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-easy-crop": "^4.6.3",
     "wagmi": "^0.11.3"
   },
   "devDependencies": {

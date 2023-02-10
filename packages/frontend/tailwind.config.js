@@ -4,7 +4,12 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "btn-primary":
+          "linear-gradient(181.11deg, #95BFFF -36.4%, #2931E1 122.53%)",
+      },
+    },
   },
   plugins: [],
 };

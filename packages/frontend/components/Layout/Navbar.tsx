@@ -1,21 +1,42 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Fasthand } from "@next/font/google";
+import { Major_Mono_Display, Work_Sans } from "@next/font/google";
+import clsx from "clsx";
 
-const fasthand = Fasthand({ weight: "400", subsets: ["latin"] });
+const MajorMonoDisplay = Major_Mono_Display({
+  weight: "400",
+  subsets: ["latin"],
+});
+
+const WorkSans = Work_Sans({
+  weight: "500",
+  subsets: ["latin"],
+});
+
+const navButtonStyles = clsx(`
+  ${WorkSans.className} text-[rgba(255, 255, 255, 0.41)],
+  hover:text-white hover:bg-gray-700 rounded-md px-4 py-2 
+  transition-all duration-500 ease-in-out
+`);
 
 export function Navbar() {
   return (
     <div className="w-full fixed top-0 left-0 px-8 flex justify-between text-white bg-gray-800 items-center py-2">
       <div className="flex justify-center items-center gap-16">
-        <h1 className={`${fasthand.className} text-[2rem]`}>
-          V<span className="text-[1.4rem]">ykt</span>
-        </h1>
+        <a href="/" className={`${MajorMonoDisplay.className} text-[2rem]`}>
+          Vykt
+        </a>
         <div className="flex justify-center items-center gap-8 text-gray-400">
-          <a className="hover:text-white" href="/create">
-            create
+          <a
+            className={`${navButtonStyles} ${WorkSans.className}`}
+            href="/create"
+          >
+            ✏️ Create
           </a>
-          <a className="hover:text-white" href="/history">
-            history
+          <a
+            className={`${navButtonStyles} ${WorkSans.className}`}
+            href="/history"
+          >
+            🕓 History
           </a>
         </div>
       </div>

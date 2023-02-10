@@ -2,7 +2,7 @@ import * as React from "react";
 import type { AppProps } from "next/app";
 import NextHead from "next/head";
 import "../styles/globals.css";
-import { Layout } from "@/components";
+import { Layout, Navbar } from "@/components";
 
 // Imports
 import { createClient, WagmiConfig, configureChains } from "wagmi";
@@ -46,6 +46,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider coolMode chains={chains}>
         <Layout>
+          <Navbar />
           <NextHead>
             <title>vykt</title>
           </NextHead>

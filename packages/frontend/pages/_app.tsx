@@ -46,7 +46,6 @@ const App = ({ Component, pageProps }: AppProps) => {
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider coolMode chains={chains}>
         <Layout>
-          <Navbar />
           <NextHead>
             <title>vykt</title>
           </NextHead>

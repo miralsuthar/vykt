@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export function Prompt() {
-  const [input, setInput] = useState<string>("");
+  const [prompt, setPrompt] = useState<string>("");
 
   return (
     <div className="bg-[#141822] rounded-md p-5 flex flex-col gap-4">
@@ -10,10 +10,10 @@ export function Prompt() {
         className="bg-[#202738] px-6 py-4 rounded-md w-full"
         type="text"
         placeholder="Enter a prompt"
-        onChange={(e) => setInput(e.target.value)}
+        onChange={(e) => setPrompt(e.target.value)}
         onKeyDown={(e) => {
-          if (input.length > 0 && e.key === "Enter") {
-            console.log(input);
+          if (prompt.length > 0 && e.key === "Enter") {
+            console.log(prompt);
           }
         }}
       />

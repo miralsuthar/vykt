@@ -11,6 +11,7 @@ export function ImageDroper() {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
+  const [isImageHovered, setIsImageHovered] = useState<boolean>(false);
 
   const handleDragOver = (e: DragEvent) => {
     e.preventDefault();
@@ -27,7 +28,7 @@ export function ImageDroper() {
   const handleImageInput = (e: any) => {
     const file = e.target.files[0];
     setImage(file);
-    setPreviewUrl(URL.createObjectURL(file));
+    file && setPreviewUrl(URL.createObjectURL(file));
   };
 
   const onCropComplete = useCallback(
@@ -39,13 +40,14 @@ export function ImageDroper() {
 
   const showCroppedImage = useCallback(async () => {
     try {
-      const croppedImage = await getCroppedImg(
-        previewUrl as string,
-        croppedAreaPixels,
-        0
-      );
-      console.log("donee", { croppedImage });
-      setPreviewUrl(croppedImage as string);
+      if (image) {
+        const croppedImage = await getCroppedImg(
+          URL.createObjectURL(image),
+          croppedAreaPixels,
+          0
+        );
+        setPreviewUrl(croppedImage as string);
+      }
     } catch (e) {
       console.error(e);
     }
@@ -59,20 +61,40 @@ export function ImageDroper() {
         className="flex aspect-square bg-transparent border-[5px] border-dotted border-gray-400 text-white rounded-lg relative justify-center items-center overflow-hidden"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
+        onMouseEnter={() => setIsImageHovered(true)}
+        onMouseLeave={() => setIsImageHovered(false)}
       >
-        {previewUrl && !enableCrop && (
+        {isImageHovered && previewUrl && !enableCrop && (
           <button
-            className="absolute top-2 right-2 z-20 text-white"
+            className="text-white absolute top-2 left-2 z-20"
             onClick={() => setEnableCrop((prev) => !prev)}
           >
             crop
           </button>
         )}
-        <input
-          type="file"
-          className="absolute top-0 left-0 h-full w-full opacity-0"
-          onChange={handleImageInput}
-        />
+        {isImageHovered && previewUrl && (
+          <button className="absolute top-2 left-20 z-20 ">
+            <label
+              htmlFor="file"
+              className="cursor-pointer pointer-events-none"
+            >
+              upload
+            </label>
+            <input
+              name="file"
+              type="file"
+              className="opacity-0 absolute w-full h-full top-0 left-0"
+              onChange={handleImageInput}
+            />
+          </button>
+        )}
+        {!previewUrl && (
+          <input
+            type="file"
+            className="absolute top-0 left-0 h-full w-full opacity-0"
+            onChange={handleImageInput}
+          />
+        )}
         {enableCrop && (
           <button
             className="absolute top-2 right-2 z-20 text-white"
@@ -98,7 +120,7 @@ export function ImageDroper() {
           />
         ) : (
           <Cropper
-            image={previewUrl!}
+            image={image ? URL.createObjectURL(image) : ""}
             crop={crop}
             zoom={zoom}
             aspect={1 / 1}

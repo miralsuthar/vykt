@@ -21,7 +21,7 @@ const navButtonStyles = clsx(`
 
 export function Navbar() {
   return (
-    <div className="w-full fixed top-0 left-0 px-8 flex justify-between text-white bg-gray-800 items-center py-2">
+    <div className="w-full fixed top-0 left-0 px-8 flex justify-between text-white bg-navbar items-center py-2">
       <div className="flex justify-center items-center gap-16">
         <Link href="/" className={`${MajorMonoDisplay.className} text-[2rem]`}>
           Vykt

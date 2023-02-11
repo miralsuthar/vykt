@@ -1,17 +1,19 @@
-import { DragEvent, useState, useCallback, useEffect } from "react";
+import { DragEvent, useState, useCallback, useEffect, useContext } from "react";
 import Cropper from "react-easy-crop";
 import clsx from "clsx";
 
 import getCroppedImg from "@/utils/cropImage";
+import { ImageContext } from "@/contexts";
 
 export function ImageDroper() {
-  const [image, setImage] = useState<null | File>(null);
   const [enableCrop, setEnableCrop] = useState<boolean>(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [isImageHovered, setIsImageHovered] = useState<boolean>(false);
+
+  const { image, setImage } = useContext(ImageContext);
 
   const handleDragOver = (e: DragEvent) => {
     e.preventDefault();
@@ -21,14 +23,16 @@ export function ImageDroper() {
     e.preventDefault();
     e.stopPropagation();
     const file = e.dataTransfer.files[0];
-    setImage(file);
-    setPreviewUrl(URL.createObjectURL(file));
+    setImage!(file);
   };
+
+  useEffect(() => {
+    image && setPreviewUrl(URL.createObjectURL(image!));
+  }, [image]);
 
   const handleImageInput = (e: any) => {
     const file = e.target.files[0];
-    setImage(file);
-    file && setPreviewUrl(URL.createObjectURL(file));
+    setImage!(file);
   };
 
   const onCropComplete = useCallback(
@@ -55,10 +59,17 @@ export function ImageDroper() {
 
   const buttonClass = clsx("px-4 py-2 border-white border-2 rounded-lg");
 
+  useEffect(() => {
+    console.log("previewUrl", previewUrl);
+    console.log("image", image);
+  }, [image, previewUrl]);
+
   return (
     <div className="w-full h-full">
       <div
-        className="flex aspect-square bg-transparent border-[5px] border-dotted border-gray-400 text-white rounded-lg relative justify-center items-center overflow-hidden"
+        className={`flex aspect-square bg-transparent ${
+          !image && "border-[5px] border-dotted border-gray-400"
+        }  text-white rounded-lg relative justify-center items-center overflow-hidden`}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onMouseEnter={() => setIsImageHovered(true)}

@@ -1,15 +1,24 @@
 import { lexicaFetch } from "@/utils/lexicaHelper";
+import { AxiosError } from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
-  const data = await lexicaFetch(req.body.prompt, req.body.cursor);
-  data.baseURL =
-    "https://lexica-serve-encoded-images2.sharif.workers.dev/full_jpg";
+  try {
+    const { prompt, cursor } = req.query;
 
-  res.status(200).json(data);
+    const data = await lexicaFetch(prompt as string, Number(cursor) as number);
+    data.baseURL =
+      "https://lexica-serve-encoded-images2.sharif.workers.dev/full_jpg";
+
+    res.status(200).json(data);
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      res.status(500).json({ error: error.message });
+    }
+  }
 };
 
 export default handler;

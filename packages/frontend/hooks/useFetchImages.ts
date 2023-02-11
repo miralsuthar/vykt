@@ -9,11 +9,10 @@ export function useFetchImages(prompt: string, cursor: number) {
       try {
         const { data: res } = await axios({
           method: "POST",
-          url: "/api/prompt-search",
-          data: JSON.stringify({
-            prompt: prompt,
-            cursor: cursor,
-          }),
+          url: `/api/prompt-search?prompt=${prompt}&cursor=${cursor}`,
+          headers: {
+            "Content-Type": "application/json",
+          },
         });
         setData(res);
       } catch (err) {

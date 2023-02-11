@@ -2,7 +2,7 @@ import * as React from "react";
 import type { AppProps } from "next/app";
 import NextHead from "next/head";
 import "../styles/globals.css";
-import { Layout, Navbar } from "@/components";
+import { Layout } from "@/components";
 
 // Imports
 import { createClient, WagmiConfig, configureChains } from "wagmi";

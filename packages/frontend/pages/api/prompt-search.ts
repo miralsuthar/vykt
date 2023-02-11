@@ -10,8 +10,7 @@ const handler = async (
     const { prompt, cursor } = req.query;
 
     const data = await lexicaFetch(prompt as string, Number(cursor) as number);
-    data.baseURL =
-      "https://lexica-serve-encoded-images2.sharif.workers.dev/full_jpg";
+    data.baseURL = "https://lexica-serve-encoded-images2.sharif.workers.dev/md";
 
     res.status(200).json(data);
   } catch (error) {

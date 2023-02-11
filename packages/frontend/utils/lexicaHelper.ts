@@ -1,31 +1,32 @@
 import axios from "axios";
+import { SearchResponse } from "./types";
 
-export const lexicaFetch = async (prompt: string, cursor: number) => {
+export const lexicaFetch = async (
+  prompt: string,
+  cursor: number
+): Promise<SearchResponse> => {
   const url = "https://lexica.art/api/infinite-prompts";
 
   const body = {
     cursor: cursor,
     model: "lexica-aperture-v2",
-    searchMode: "images",
+    searchMode: "prompts",
     source: "search",
     text: prompt,
   };
 
   const options = {
-    data: JSON.stringify(body),
     headers: {
       "Content-Type": "application/json",
     },
+    data: JSON.stringify(body),
   };
 
   const { data } = await axios({
     method: "POST",
-    url,
+    url: url,
     ...options,
   });
-
-  console.log(await data.nextCursor);
-  console.log(await data.count);
 
   return data;
 };

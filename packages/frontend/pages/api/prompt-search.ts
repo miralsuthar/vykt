@@ -7,13 +7,18 @@ const handler = async (
   res: NextApiResponse
 ): Promise<void> => {
   try {
-    const { prompt, cursor } = req.query;
+    const { prompt, cursor, relevance } = req.query;
 
-    const data = await lexicaFetch(prompt as string, Number(cursor) as number);
-    if (prompt === "") {
+    const data = await lexicaFetch(
+      prompt as string,
+      Number(cursor) as number,
+      relevance ? (relevance as "images" | "prompts") : "images"
+    );
+
+    if (relevance === "images" || relevance === undefined) {
       data.baseURL =
         "https://lexica-serve-encoded-images2.sharif.workers.dev/full_jpg";
-    } else {
+    } else if (relevance === "prompts" && prompt !== "") {
       data.baseURL =
         "https://lexica-serve-encoded-images2.sharif.workers.dev/md";
     }

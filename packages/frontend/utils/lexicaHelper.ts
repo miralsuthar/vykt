@@ -3,14 +3,15 @@ import { SearchResponse } from "./types";
 
 export const lexicaFetch = async (
   prompt: string,
-  cursor: number
+  cursor: number,
+  relevance: "images" | "prompts" = "images"
 ): Promise<SearchResponse> => {
   const url = "https://lexica.art/api/infinite-prompts";
 
   const body = {
     cursor: cursor,
     model: "lexica-aperture-v2",
-    searchMode: "prompts",
+    searchMode: relevance,
     source: "search",
     text: prompt,
   };

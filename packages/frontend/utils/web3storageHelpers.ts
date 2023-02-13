@@ -24,3 +24,15 @@ export const retrieveFile = async (cid: string) => {
     console.log("status", status);
   }
 };
+
+export const getImageURI = async (cid: string, imageId: string) => {
+  const client = await storageClient();
+
+  const status = await client.status(cid);
+
+  if (status) {
+    return `https://${cid}.ipfs.dweb.link/${imageId}.jpeg`;
+  }
+
+  return;
+};

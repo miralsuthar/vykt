@@ -10,7 +10,7 @@ const main: DeployFunction = async function ({
   const { deployer } = await getNamedAccounts();
 
   await deploy("Vykt", {
-    args: [ethers.utils.parseEther("1")],
+    args: [ethers.utils.parseEther("0.1")],
     from: deployer,
     log: true,
   });

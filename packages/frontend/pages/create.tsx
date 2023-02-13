@@ -34,7 +34,7 @@ export default function Create() {
             <div className="w-2/6">
               <ImageDropper />
             </div>
-            <div className="w-4/6 h-5/6">
+            <div className="w-4/6 h-full">
               <Prompt />
             </div>
           </ImageContext.Provider>

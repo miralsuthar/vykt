@@ -1,31 +1,49 @@
-import * as React from "react";
 import type { AppProps } from "next/app";
 import NextHead from "next/head";
 
-import "../styles/globals.css";
 import { Layout } from "@/components";
+import "../styles/globals.css";
 
-// Imports
-import { createClient, WagmiConfig, configureChains } from "wagmi";
-import {
-  mainnet,
-  polygon,
-  polygonMumbai,
-  optimism,
-  arbitrum,
-  hardhat,
-} from "wagmi/chains";
+import { Chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 
-import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import "@rainbow-me/rainbowkit/styles.css";
 
 import { useIsMounted } from "../hooks";
 
+const mantleTestnet: Chain = {
+  id: 5001,
+  name: "Mantle Testnet",
+  network: "mantle testnet",
+  nativeCurrency: {
+    decimals: 18,
+    name: "BIT",
+    symbol: "BIT",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://rpc.testnet.mantle.xyz/"],
+    },
+    public: {
+      http: ["https://rpc.testnet.mantle.xyz/"],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: "Mantle Explorer",
+      url: "https://explorer.testnet.mantle.xyz/",
+    },
+  },
+  testnet: true,
+};
+
 const { chains, provider, webSocketProvider } = configureChains(
-  [mainnet, polygon, polygonMumbai, optimism, arbitrum, hardhat],
+  [mantleTestnet],
   [publicProvider()]
 );
+
+console.log(chains);
 
 const { connectors } = getDefaultWallets({
   appName: "create-web3",

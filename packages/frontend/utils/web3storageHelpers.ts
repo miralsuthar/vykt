@@ -13,16 +13,6 @@ export const storeFile = async (imgFile: File) => {
   return cid;
 };
 
-export const retrieveFile = async (cid: string) => {
-  const client = await storageClient();
-
-  const status = await client.status(cid);
-
-  if (status) {
-    console.log("status", status);
-  }
-};
-
 export const getImageURI = async (cid: string, imageId: string) => {
   const client = await storageClient();
 

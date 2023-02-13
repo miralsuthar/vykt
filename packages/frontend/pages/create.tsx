@@ -3,6 +3,7 @@ import { ImageDropper, Prompt } from "@/components";
 import { ImageContext } from "@/contexts";
 import { useAccount } from "wagmi";
 import { Unna } from "@next/font/google";
+import { useContractWrite, useContractRead } from "wagmi";
 
 const unna = Unna({
   weight: "400",
@@ -23,7 +24,7 @@ export default function Create() {
             Create
           </h1>
           <p className="text-center text-gray-500 -mt-2">
-            An unique profile photo for your unique address.
+            A unique profile photo for your unique address.
           </p>
         </div>
       )}

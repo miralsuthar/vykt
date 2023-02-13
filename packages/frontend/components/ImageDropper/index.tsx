@@ -16,6 +16,7 @@ export function ImageDropper() {
   const [zoom, setZoom] = useState(1);
   const [isImageHovered, setIsImageHovered] = useState<boolean>(false);
   const [isImageSaving, setIsImageSaving] = useState<boolean>(false);
+  const [ipfsUri, setIpfsUri] = useState<string | null>(null);
 
   const { image, setImage } = useContext(ImageContext);
 
@@ -32,7 +33,7 @@ export function ImageDropper() {
         getImageURI(cid, imageId)
       );
       setIsImageSaving(false);
-      console.log(ImageUri);
+      setIpfsUri(ImageUri!);
     }
   };
 
@@ -163,11 +164,11 @@ export function ImageDropper() {
       <div className="flex justify-center items-center gap-10 mt-5">
         <button className={buttonClass}>Preview</button>
         <button
-          className={`${buttonClass} bg-purple-800`}
+          className={`${buttonClass} bg-blue-600`}
           onClick={handleSaveVykt}
           disabled={isImageSaving}
         >
-          Save your Vykt
+          {isImageSaving ? "Processing..." : "Save your Vykt"}
         </button>
       </div>
     </div>

@@ -18,6 +18,8 @@ const config: HardhatUserConfig = {
   networks: {
     localhost: {
       chainId: 31337,
+      gas: 12000000,
+      gasPrice: 20000000000,
     },
 
     /////////

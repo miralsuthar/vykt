@@ -4,8 +4,12 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Vykt is Ownable {
-    uint256 public price;
-    mapping(address => string[]) public addrImageURIs;
+    uint256 internal price;
+    mapping(address => string[]) internal addrImageURIs;
+
+    receive() external payable {}
+
+    fallback() external payable {}
 
     modifier priceCheck() {
         require(msg.value >= price, "Not enough BIT");
@@ -16,17 +20,23 @@ contract Vykt is Ownable {
         price = _price;
     }
 
-    event CurrentImageURI(address indexed _addr, string _imageURI);
-    event ImageURIs(address indexed _addr, string[] _imageURIs);
+    event ImageURIChanged(address indexed _addr, string _imageURI);
 
-    function addImageURI(string calldata _imageURI) public payable {
-        require(msg.value >= price, "Not enough BIT");
-        (bool sent, ) = msg.sender.call{value: msg.value}("");
+    event AllImageURIs(address indexed _addr, string[] _imageURIs);
+
+    event PriceChanged(uint256 _price);
+
+    event Withdraw(address indexed _addr, uint256 _amount);
+
+    function setCurrentImageURI(string calldata _imageURI) public payable {
+        require(msg.value >= getPrice(), "Not enough BIT");
+
+        (bool sent, ) = address(this).call{value: msg.value}("");
         require(sent, "Failed to send BIT");
 
         addrImageURIs[msg.sender].push(_imageURI);
-        emit ImageURIs(msg.sender, addrImageURIs[msg.sender]);
-        emit CurrentImageURI(msg.sender, _imageURI);
+        emit ImageURIChanged(msg.sender, _imageURI);
+        emit AllImageURIs(msg.sender, addrImageURIs[msg.sender]);
     }
 
     function getImageURIs(address _addr) public view returns (string[] memory) {
@@ -43,17 +53,16 @@ contract Vykt is Ownable {
 
     function setPrice(uint256 _price) public onlyOwner {
         price = _price;
+        emit PriceChanged(price);
     }
 
     function getPrice() public view returns (uint256) {
         return price;
     }
 
-    function withdraw() public onlyOwner {
-        payable(msg.sender).transfer(address(this).balance);
+    function withdraw(uint256 _value) public onlyOwner {
+        require(_value <= address(this).balance, "Not enough BIT");
+        payable(msg.sender).transfer(_value);
+        emit Withdraw(msg.sender, address(this).balance);
     }
-
-    receive() external payable {}
-
-    fallback() external payable {}
 }

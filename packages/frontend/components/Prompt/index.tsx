@@ -19,11 +19,10 @@ export function Prompt() {
 
   return (
     <div className="bg-prompt-bg h-full rounded-md p-5 flex flex-col gap-4">
-      <h1 className="text-[1.5rem] font-bold">Write your prompt</h1>
       <input
         className="bg-prompt-input px-6 py-4 rounded-md w-full"
         type="text"
-        placeholder="Enter a prompt"
+        placeholder="✏️Write a prompt to create your Vykt"
         onChange={(e) => setPrompt(e.target.value)}
         onKeyDown={(e) => {
           if (prompt.length > 0 && e.key === "Enter") {

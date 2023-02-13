@@ -1,26 +1,46 @@
 import { useState } from "react";
-import { ImageDroper, Prompt } from "@/components";
+import { ImageDropper, Prompt } from "@/components";
 import { ImageContext } from "@/contexts";
 import { useAccount } from "wagmi";
+import { Unna } from "@next/font/google";
+
+const unna = Unna({
+  weight: "400",
+  subsets: ["latin"],
+});
 
 export default function Create() {
   const [image, setImage] = useState<File | null>(null);
   const { isConnected } = useAccount();
+
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full flex flex-col overflow-hidden">
+      {isConnected && (
+        <div className="mb-10">
+          <h1
+            className={`${unna.className} text-[4rem] text-white text-center `}
+          >
+            Create
+          </h1>
+          <p className="text-center text-gray-500 -mt-2">
+            An unique profile photo for your unique address.
+          </p>
+        </div>
+      )}
+
       {isConnected ? (
-        <section className="text-white flex pt-20 w-full h-full gap-10">
+        <section className="text-white flex justify-center items-start w-full h-3/5 gap-10 flex-1">
           <ImageContext.Provider value={{ image, setImage }}>
-            <div className="h-4/6 w-4/12">
-              <ImageDroper />
+            <div className="w-2/6">
+              <ImageDropper />
             </div>
-            <div className="flex-1">
+            <div className="w-4/6 h-5/6">
               <Prompt />
             </div>
           </ImageContext.Provider>
         </section>
       ) : (
-        <section className="text-white text-[3rem] flex pt-20 w-full h-full justify-center items-center">
+        <section className="text-white text-[3rem] flex h-full justify-center items-center">
           <p>Opps! Is seva ka labh lene ke liye krupya apna batua jode.</p>
         </section>
       )}

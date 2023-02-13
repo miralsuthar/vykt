@@ -12,7 +12,7 @@ export function ImageCard({ src, onClick, isSelected }: ImageCardProps) {
       onClick={onClick}
       className={`overflow-hidden ${
         isSelected && "border-[5px] border-blue-500"
-      }  relative rounded-lg aspect-square h-[15rem] cursor-pointer`}
+      }  relative rounded-lg aspect-square h-[15rem] hover:scale-105 duration-300 cursor-pointer`}
     >
       {isSelected && (
         <div className="absolute top-0 right-0 z-10 border-t-[3rem] border-l-[3rem] border-t-blue-500 border-l-transparent"></div>

@@ -60,16 +60,13 @@ export function ImageDropper() {
 
   const buttonClass = clsx("px-4 py-2 border-white border-2 rounded-lg");
 
-  // useEffect(() => {
-  //   console.log("previewUrl", previewUrl);
-  //   console.log("image", image);
-  // }, [image, previewUrl]);
-
   return (
     <div className="w-full h-full">
       <div
         className={`flex aspect-square bg-transparent ${
-          !image && "border-[5px] border-dotted border-gray-400"
+          !image
+            ? "border-[5px] border-dotted border-gray-400"
+            : "shadow-md shadow-blue-900"
         }  text-white rounded-lg relative justify-center items-center overflow-hidden`}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
@@ -78,14 +75,14 @@ export function ImageDropper() {
       >
         {isImageHovered && previewUrl && !enableCrop && (
           <button
-            className="text-white absolute bottom-2 right-5 z-20"
+            className="text-white absolute bottom-2 bg-gray-800 rounded-md p-1 right-5 z-50"
             onClick={() => setEnableCrop((prev) => !prev)}
           >
             <FiCrop size={"1.4rem"} fontWeight="bold" />
           </button>
         )}
         {isImageHovered && previewUrl && (
-          <button className="absolute bottom-2 right-16 z-20 cursor-pointer">
+          <button className="absolute pointer-events-none bottom-2 right-16 z-50 bg-gray-800 rounded-md p-1 cursor-pointer">
             <FiUpload size={"1.4rem"} fontWeight="bold" />
             <input
               name="file"
@@ -104,7 +101,7 @@ export function ImageDropper() {
         )}
         {enableCrop && (
           <button
-            className="absolute top-2 right-2 z-20 text-white"
+            className="absolute top-2 right-2 z-50 text-white"
             onClick={async () => {
               setEnableCrop((prev) => !prev);
               showCroppedImage();

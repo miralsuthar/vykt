@@ -3,10 +3,13 @@ import Cropper from "react-easy-crop";
 import clsx from "clsx";
 import { FiCrop, FiUpload } from "react-icons/fi";
 import { v4 as uuidv4 } from "uuid";
+import { useContractWrite, usePrepareContractWrite } from "wagmi";
+
 import { storeFile, getImageURI } from "@/utils/web3storageHelpers";
 
 import getCroppedImg from "@/utils/cropImage";
 import { ImageContext } from "@/contexts";
+import VykyABI from "@/contracts/vykt.json";
 
 export function ImageDropper() {
   const [enableCrop, setEnableCrop] = useState<boolean>(false);
@@ -20,6 +23,23 @@ export function ImageDropper() {
 
   const { image, setImage } = useContext(ImageContext);
 
+  const { config } = usePrepareContractWrite({
+    address: "0x4C521043f07be5726b549A5A069BD048f2E333d0",
+    abi: VykyABI,
+    functionName: "setCurrentImageURI",
+    args: [ipfsUri],
+  });
+
+  const { data, isLoading, isSuccess, write } = useContractWrite(config);
+
+  useEffect(() => {
+    if (ipfsUri) {
+      write?.();
+      setIsImageSaving(false);
+      console.log("its done hoorah");
+    }
+  }, [ipfsUri]);
+
   const handleSaveVykt = async () => {
     if (image) {
       setIsImageSaving(true);
@@ -32,7 +52,6 @@ export function ImageDropper() {
       const ImageUri = await storeFile(ImageFile).then((cid) =>
         getImageURI(cid, imageId)
       );
-      setIsImageSaving(false);
       setIpfsUri(ImageUri!);
     }
   };
@@ -49,12 +68,9 @@ export function ImageDropper() {
   };
 
   useEffect(() => {
-    image && setPreviewUrl(URL.createObjectURL(image!));
-  }, [image]);
-
-  useEffect(() => {
     if (image) {
       setEnableCrop(true);
+      setPreviewUrl(URL.createObjectURL(image!));
     }
   }, [image]);
 

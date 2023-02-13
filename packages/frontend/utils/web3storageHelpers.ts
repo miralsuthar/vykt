@@ -6,12 +6,10 @@ const storageClient = async () => {
   });
 };
 
-export const storeFile = async (imgFile: File, imageId: string) => {
+export const storeFile = async (imgFile: File) => {
   const client = await storageClient();
 
-  const file = new File([imgFile], `${imageId}.jpeg`, { type: "image/jpeg" });
-  const cid = await client.put([file]);
-
+  const cid = await client.put([imgFile]);
   return cid;
 };
 

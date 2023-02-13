@@ -2,6 +2,8 @@ import { DragEvent, useState, useCallback, useEffect, useContext } from "react";
 import Cropper from "react-easy-crop";
 import clsx from "clsx";
 import { FiCrop, FiUpload } from "react-icons/fi";
+import { v4 as uuidv4 } from "uuid";
+import { storeFile, getImageURI } from "@/utils/web3storageHelpers";
 
 import getCroppedImg from "@/utils/cropImage";
 import { ImageContext } from "@/contexts";
@@ -13,8 +15,26 @@ export function ImageDropper() {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [isImageHovered, setIsImageHovered] = useState<boolean>(false);
+  const [isImageSaving, setIsImageSaving] = useState<boolean>(false);
 
   const { image, setImage } = useContext(ImageContext);
+
+  const handleSaveVykt = async () => {
+    if (image) {
+      setIsImageSaving(true);
+      const imageId = uuidv4();
+      const ImageFile = await fetch(previewUrl!)
+        .then((res) => res.blob())
+        .then(
+          (data) => new File([data], `${imageId}.jpeg`, { type: "image/jpeg" })
+        );
+      const ImageUri = await storeFile(ImageFile).then((cid) =>
+        getImageURI(cid, imageId)
+      );
+      setIsImageSaving(false);
+      console.log(ImageUri);
+    }
+  };
 
   const handleDragOver = (e: DragEvent) => {
     e.preventDefault();
@@ -29,6 +49,12 @@ export function ImageDropper() {
 
   useEffect(() => {
     image && setPreviewUrl(URL.createObjectURL(image!));
+  }, [image]);
+
+  useEffect(() => {
+    if (image) {
+      setEnableCrop(true);
+    }
   }, [image]);
 
   const handleImageInput = (e: any) => {
@@ -136,7 +162,11 @@ export function ImageDropper() {
       </div>
       <div className="flex justify-center items-center gap-10 mt-5">
         <button className={buttonClass}>Preview</button>
-        <button className={`${buttonClass} bg-purple-800`}>
+        <button
+          className={`${buttonClass} bg-purple-800`}
+          onClick={handleSaveVykt}
+          disabled={isImageSaving}
+        >
           Save your Vykt
         </button>
       </div>

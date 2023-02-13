@@ -3,10 +3,18 @@ import Cropper from "react-easy-crop";
 import clsx from "clsx";
 import { FiCrop, FiUpload } from "react-icons/fi";
 import { v4 as uuidv4 } from "uuid";
+import { utils } from "ethers";
+import {
+  useContractWrite,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
+
 import { storeFile, getImageURI } from "@/utils/web3storageHelpers";
 
 import getCroppedImg from "@/utils/cropImage";
 import { ImageContext } from "@/contexts";
+import VykyABI from "@/contracts/vykt.json";
 
 export function ImageDropper() {
   const [enableCrop, setEnableCrop] = useState<boolean>(false);
@@ -20,6 +28,24 @@ export function ImageDropper() {
 
   const { image, setImage } = useContext(ImageContext);
 
+  const { config } = usePrepareContractWrite({
+    address: "0x4C521043f07be5726b549A5A069BD048f2E333d0",
+    abi: VykyABI,
+    functionName: "setCurrentImageURI",
+    args: [
+      ipfsUri,
+      {
+        gasLimit: 1000000,
+        value: utils.parseEther("0.1"),
+      },
+    ],
+  });
+
+  const { data, write, isError, error } = useContractWrite(config);
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  });
+
   const handleSaveVykt = async () => {
     if (image) {
       setIsImageSaving(true);
@@ -32,8 +58,21 @@ export function ImageDropper() {
       const ImageUri = await storeFile(ImageFile).then((cid) =>
         getImageURI(cid, imageId)
       );
-      setIsImageSaving(false);
       setIpfsUri(ImageUri!);
+      setIsImageSaving(false);
+    }
+  };
+
+  const mint = () => {
+    if (ipfsUri) {
+      write?.();
+      setIsImageSaving(isLoading);
+    }
+    if (isError) {
+      console.log(error?.message);
+    }
+    if (isSuccess) {
+      console.log("success");
     }
   };
 
@@ -49,12 +88,9 @@ export function ImageDropper() {
   };
 
   useEffect(() => {
-    image && setPreviewUrl(URL.createObjectURL(image!));
-  }, [image]);
-
-  useEffect(() => {
     if (image) {
       setEnableCrop(true);
+      setPreviewUrl(URL.createObjectURL(image!));
     }
   }, [image]);
 
@@ -165,10 +201,20 @@ export function ImageDropper() {
         <button className={buttonClass}>Preview</button>
         <button
           className={`${buttonClass} bg-blue-600`}
-          onClick={handleSaveVykt}
+          onClick={() => {
+            handleSaveVykt();
+          }}
           disabled={isImageSaving}
         >
           {isImageSaving ? "Processing..." : "Save your Vykt"}
+        </button>
+        <button
+          className={`${buttonClass} bg-blue-600`}
+          onClick={() => {
+            mint();
+          }}
+        >
+          Link to address
         </button>
       </div>
     </div>

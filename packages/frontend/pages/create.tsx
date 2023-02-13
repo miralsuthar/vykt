@@ -3,7 +3,6 @@ import { ImageDropper, Prompt } from "@/components";
 import { ImageContext } from "@/contexts";
 import { useAccount } from "wagmi";
 import { Unna } from "@next/font/google";
-import { useContractWrite, useContractRead } from "wagmi";
 
 const unna = Unna({
   weight: "400",

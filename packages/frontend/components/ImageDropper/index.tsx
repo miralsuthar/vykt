@@ -75,14 +75,14 @@ export function ImageDropper() {
       >
         {isImageHovered && previewUrl && !enableCrop && (
           <button
-            className="text-white absolute bottom-2 right-5 z-50"
+            className="text-white absolute bottom-2 bg-gray-800 rounded-md p-1 right-5 z-50"
             onClick={() => setEnableCrop((prev) => !prev)}
           >
             <FiCrop size={"1.4rem"} fontWeight="bold" />
           </button>
         )}
         {isImageHovered && previewUrl && (
-          <button className="absolute bottom-2 right-16 z-50 cursor-pointer">
+          <button className="absolute pointer-events-none bottom-2 right-16 z-50 bg-gray-800 rounded-md p-1 cursor-pointer">
             <FiUpload size={"1.4rem"} fontWeight="bold" />
             <input
               name="file"

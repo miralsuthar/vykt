@@ -1,4 +1,4 @@
 export { Layout } from "./Layout/Layout";
 export { Navbar } from "./Layout/Navbar";
-export { ImageDroper } from "./ImageDroper";
+export { ImageDropper } from "./ImageDropper";
 export { Prompt } from "./Prompt";

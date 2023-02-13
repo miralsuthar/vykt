@@ -1,11 +1,12 @@
 import { DragEvent, useState, useCallback, useEffect, useContext } from "react";
 import Cropper from "react-easy-crop";
 import clsx from "clsx";
+import { FiCrop, FiUpload } from "react-icons/fi";
 
 import getCroppedImg from "@/utils/cropImage";
 import { ImageContext } from "@/contexts";
 
-export function ImageDroper() {
+export function ImageDropper() {
   const [enableCrop, setEnableCrop] = useState<boolean>(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
@@ -59,10 +60,10 @@ export function ImageDroper() {
 
   const buttonClass = clsx("px-4 py-2 border-white border-2 rounded-lg");
 
-  useEffect(() => {
-    console.log("previewUrl", previewUrl);
-    console.log("image", image);
-  }, [image, previewUrl]);
+  // useEffect(() => {
+  //   console.log("previewUrl", previewUrl);
+  //   console.log("image", image);
+  // }, [image, previewUrl]);
 
   return (
     <div className="w-full h-full">
@@ -77,20 +78,15 @@ export function ImageDroper() {
       >
         {isImageHovered && previewUrl && !enableCrop && (
           <button
-            className="text-white absolute top-2 left-2 z-20"
+            className="text-white absolute bottom-2 right-5 z-20"
             onClick={() => setEnableCrop((prev) => !prev)}
           >
-            crop
+            <FiCrop size={"1.4rem"} fontWeight="bold" />
           </button>
         )}
         {isImageHovered && previewUrl && (
-          <button className="absolute top-2 left-20 z-20 ">
-            <label
-              htmlFor="file"
-              className="cursor-pointer pointer-events-none"
-            >
-              upload
-            </label>
+          <button className="absolute bottom-2 right-16 z-20 cursor-pointer">
+            <FiUpload size={"1.4rem"} fontWeight="bold" />
             <input
               name="file"
               type="file"

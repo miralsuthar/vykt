@@ -19,14 +19,16 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-easy-crop": "^4.6.3",
-    "web3.storage": "^4.4.0",
     "react-icons": "^4.7.1",
-    "wagmi": "^0.11.3"
+    "uuid": "^9.0.0",
+    "wagmi": "^0.11.3",
+    "web3.storage": "^4.4.0"
   },
   "devDependencies": {
     "@types/node": "^18.13.0",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
+    "@types/uuid": "^9.0.0",
     "autoprefixer": "^10.4.13",
     "eslint": "^8.27.0",
     "eslint-config-next": "^13.0.2",

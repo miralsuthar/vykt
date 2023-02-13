@@ -6,23 +6,11 @@ const storageClient = async () => {
   });
 };
 
-export const storeFile = async (imgFile: File, imageId: string) => {
+export const storeFile = async (imgFile: File) => {
   const client = await storageClient();
 
-  const file = new File([imgFile], `${imageId}.jpeg`, { type: "image/jpeg" });
-  const cid = await client.put([file]);
-
+  const cid = await client.put([imgFile]);
   return cid;
-};
-
-export const retrieveFile = async (cid: string) => {
-  const client = await storageClient();
-
-  const status = await client.status(cid);
-
-  if (status) {
-    console.log("status", status);
-  }
 };
 
 export const getImageURI = async (cid: string, imageId: string) => {

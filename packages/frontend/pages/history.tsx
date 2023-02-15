@@ -1,22 +1,36 @@
 import { useContractRead } from "wagmi";
-import VyktABI from "@/contracts/vykt.json";
-import { useEffect } from "react";
+import VyktABI from "@/contracts/vyktContract.json";
+import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 
 export default function History() {
+  const { address } = useAccount();
+  const [images, setImages] = useState<string[]>();
+
   const { data, isError, isLoading } = useContractRead({
-    address: "0x4C521043f07be5726b549A5A069BD048f2E333d0",
-    abi: VyktABI,
+    address: VyktABI.address as `0x${string}`,
+    abi: VyktABI.abi,
     functionName: "getImageURIs",
-    args: ["0x6B6C84503FE808fd91ad5087793038Ef81b37f12"],
+    args: [address],
   });
 
   useEffect(() => {
-    console.log(data);
+    setImages(data as string[]);
   }, [data, isLoading]);
 
   return (
-    <section className="w-full h-full flex justify-center items-center">
+    <section className="w-full h-full flex flex-col gap-20 justify-center items-center">
       <h1 className="text-white text-2xl">History</h1>
+      <div className="flex justify-center items-center gap-10 flex-wrap">
+        {images?.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            className="w-52 h-52 rounded-md"
+            alt=""
+          />
+        ))}
+      </div>
     </section>
   );
 }

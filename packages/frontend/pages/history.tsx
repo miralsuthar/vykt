@@ -21,14 +21,14 @@ export default function History() {
   });
 
   useEffect(() => {
-    setImages(data as string[]);
+    setImages([...(data as string[])].reverse());
   }, [data, isLoading]);
 
   return (
     <section className="w-full h-full flex flex-col gap-20 justify-start items-center">
       <h1 className={`${unna.className} text-white text-[4rem]`}>History</h1>
       <div className="flex justify-center items-center gap-10 flex-wrap">
-        {images?.length! > 0 ? (
+        {images && images.length > 0 ? (
           images?.map((image, index) => (
             <img
               key={index}

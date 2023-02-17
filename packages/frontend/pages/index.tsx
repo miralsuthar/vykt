@@ -24,10 +24,11 @@ export default function Home() {
     "https://openseauserdata.com/files/2213871af13c3deb5b33733a4e7006d7.svg"
   );
   let initial = 1;
+
   useEffect(() => {
     const imageInterval = setInterval(() => {
       setSrc(imageSrc[initial].src);
-      if (initial < imageSrc.length - 1) {
+      if (imageSrc && imageSrc?.length > 0 && initial < imageSrc?.length - 1) {
         initial++;
       } else {
         initial = 0;

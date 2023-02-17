@@ -20,6 +20,7 @@ export function NftImageCard({ src, onClick, isSelected }: ImageCardProps) {
         <TiTick color="white" className="absolute top-2 right-2" />
       )}
       <img
+        loading="lazy"
         src={src}
         sizes="(max-width: 640px) 10vw,
         (max-width: 1200px) 30vw,"

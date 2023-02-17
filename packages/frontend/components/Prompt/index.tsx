@@ -8,11 +8,6 @@ import { useAccount } from "wagmi";
 import { NftImageCard } from "./NftImageCard";
 import { PromptImageCard } from "./PromptImageCard";
 
-const MajorMonoDisplay = Major_Mono_Display({
-  weight: "400",
-  subsets: ["latin"],
-});
-
 const WorkSans = Work_Sans({
   weight: "500",
   subsets: ["latin"],
@@ -42,8 +37,6 @@ export function Prompt() {
 
   const { data: promptData } = useFetchImages(searchParam, cursor);
   const { data: nftData } = useFetchNfts(address as string);
-
-  console.log("nft Data", nftData);
 
   useEffect(() => {
     hoverRef.current!.style.width = `${item1Ref.current?.offsetWidth}px`;

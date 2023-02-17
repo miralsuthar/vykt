@@ -7,7 +7,7 @@ type ImageCardProps = {
   isSelected?: boolean;
 };
 
-export function ImageCard({ src, onClick, isSelected }: ImageCardProps) {
+export function NftImageCard({ src, onClick, isSelected }: ImageCardProps) {
   return (
     <div
       onClick={onClick}
@@ -19,12 +19,11 @@ export function ImageCard({ src, onClick, isSelected }: ImageCardProps) {
       {isSelected && (
         <TiTick color="white" className="absolute top-2 right-2" />
       )}
-      <Image
+      <img
         src={src}
-        fill
         sizes="(max-width: 640px) 10vw,
         (max-width: 1200px) 30vw,"
-        alt="Lexica image"
+        alt="Nft image"
         className="object-cover object-center"
       />
     </div>

@@ -105,13 +105,14 @@ export function ImageCropper({
       {!previewUrl && (
         <input
           type="file"
+          accept="image/png, image/jpeg, image/jpg"
           className="absolute top-0 left-0 h-full w-full opacity-0"
           onChange={handleImageInput}
         />
       )}
       {enableCrop && (
         <button
-          className="absolute top-2 right-2 z-10 text-white"
+          className="absolute top-2 right-2 z-10 text-white p-2 rounded-md bg-blue-600"
           onClick={() => {
             setEnableCrop((prev: boolean) => !prev);
             showCroppedImage();

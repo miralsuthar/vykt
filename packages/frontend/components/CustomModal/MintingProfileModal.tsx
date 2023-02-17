@@ -29,11 +29,11 @@ export function MintingProfileModal({
       {isMinted ? (
         <div
           ref={congratulationDiv}
-          className="text-white flex flex-col gap-6 text-3xl px-32 py-20 font-bold text-center"
+          className="text-white flex flex-col gap-6 text-3xl px-32 overflow-hidden py-20 font-bold text-center"
         >
           <Confetti
             width={congratulationDiv.current?.offsetWidth}
-            height={congratulationDiv.current?.offsetHeight}
+            height={450}
           />
           <p>🎉</p>
           <br />

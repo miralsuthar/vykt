@@ -1,7 +1,5 @@
-import { DragEvent, useState, useCallback, useEffect, useContext } from "react";
-import Cropper from "react-easy-crop";
+import { useState, useEffect, useContext } from "react";
 import clsx from "clsx";
-import { FiCrop, FiUpload } from "react-icons/fi";
 import { v4 as uuidv4 } from "uuid";
 import { utils } from "ethers";
 import {
@@ -11,7 +9,6 @@ import {
 } from "wagmi";
 
 import { storeFile, getImageURI } from "@/utils/web3storageHelpers";
-import getCroppedImg from "@/utils/cropImage";
 import { ImageContext } from "@/contexts";
 import VyktABI from "@/contracts/vyktContract.json";
 import { MintingProfileModal, PreviewModal } from "../CustomModal";

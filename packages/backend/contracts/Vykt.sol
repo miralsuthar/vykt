@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract Vykt is Ownable {
     uint256 internal price;
     mapping(address => string[]) internal addrImageURIs;
+    string internal notVykt = "";
 
     receive() external payable {}
 
@@ -28,6 +29,10 @@ contract Vykt is Ownable {
 
     event Withdraw(address indexed _addr, uint256 _amount);
 
+    function isVykt(address _addr) public view returns (bool) {
+        return addrImageURIs[_addr].length > 0;
+    }
+
     function setCurrentImageURI(string calldata _imageURI) public payable {
         require(msg.value >= getPrice(), "Not enough BIT");
 
@@ -48,7 +53,11 @@ contract Vykt is Ownable {
         view
         returns (string memory)
     {
-        return addrImageURIs[_addr][addrImageURIs[_addr].length - 1];
+        if (addrImageURIs[_addr].length > 0) {
+            return addrImageURIs[_addr][addrImageURIs[_addr].length - 1];
+        } else {
+            return notVykt;
+        }
     }
 
     function setPrice(uint256 _price) public onlyOwner {

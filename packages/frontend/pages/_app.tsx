@@ -43,8 +43,6 @@ const { chains, provider, webSocketProvider } = configureChains(
   [publicProvider()]
 );
 
-console.log(chains);
-
 const { connectors } = getDefaultWallets({
   appName: "create-web3",
   chains,

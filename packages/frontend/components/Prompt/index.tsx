@@ -53,6 +53,7 @@ export function Prompt() {
       }).then((res) => {
         setPromptData(res.data);
         setPromptImages([...promptImages, ...res.data.images]);
+        setCursor(res.data.nextCursor);
         console.log("res", res.data.images.length);
       });
     } catch (err) {
@@ -124,16 +125,18 @@ export function Prompt() {
               }
             }}
           />
-          <div className="scrollbar scrollbar-w-2 scrollbar-track-[#202738] scrollbar-thumb-rounded-full scrollbar-thumb-white overflow-y-scroll">
+          <div
+            id="scrollableDiv"
+            className="scrollbar scrollbar-w-2 scrollbar-track-[#202738] scrollbar-thumb-rounded-full scrollbar-thumb-white overflow-y-scroll"
+          >
             <InfiniteScroll
               dataLength={promptImages ? promptImages.length! : 0} //This is important field to render the next data
               next={() => {
-                setCursor(promptData?.nextCursor!);
                 getImages();
-                console.log("next");
               }}
               hasMore={true}
               loader={<div></div>}
+              scrollableTarget="scrollableDiv"
             >
               <div className="grid grid-cols-3 justify-items-center gap-x-2 h-full gap-y-2">
                 {promptImages.length > 0 &&

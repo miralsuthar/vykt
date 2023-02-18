@@ -25,7 +25,7 @@ export function PromptImageCard({ src, onClick, isSelected }: ImageCardProps) {
         // (max-width: 1200px) 30vw,"
         width={300}
         height={300}
-        alt="Lexica image"
+        alt="image"
         loading="lazy"
         className="object-cover object-center"
       />

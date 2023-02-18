@@ -32,3 +32,23 @@ export interface SearchResponse {
   count: number;
   baseURL: string;
 }
+
+export interface NftAsset {
+  name: string;
+  collectionTokenId: string;
+  collectionName: string;
+  collectionAddress: string;
+  imageUrl?: string;
+  chain: string;
+  network: string;
+  description: string;
+  currentOwner: string;
+}
+
+export interface NftResponse {
+  owner: string;
+  assets: NftAsset[];
+  totalItems: number;
+  totalPages: number;
+  pageNumber: number;
+}

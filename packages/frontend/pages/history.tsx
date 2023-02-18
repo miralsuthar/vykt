@@ -21,7 +21,9 @@ export default function History() {
   });
 
   useEffect(() => {
-    setImages([...(data as string[])].reverse());
+    if (data) {
+      setImages([...(data as string[])].reverse());
+    }
   }, [data, isLoading]);
 
   return (

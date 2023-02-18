@@ -91,12 +91,13 @@ export function ImageCropper({
           <FiCrop size={"1.4rem"} fontWeight="bold" />
         </button>
       )}
-      {isImageHovered && previewUrl && (
-        <button className="absolute pointer-events-none bottom-2 right-16 z-50 bg-gray-800 rounded-md p-1 cursor-pointer">
+      {isImageHovered && previewUrl && !enableCrop && (
+        <button className="absolute bottom-2 right-16 z-50 bg-gray-800 rounded-md p-1 cursor-pointer">
           <FiUpload size={"1.4rem"} fontWeight="bold" />
           <input
             name="file"
             type="file"
+            accept="image/png, image/jpeg, image/jpg"
             className="opacity-0 absolute w-full h-full top-0 left-0"
             onChange={handleImageInput}
           />

@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 
 import { ImageContext } from "@/contexts";
+import { RiSearch2Line } from "react-icons/ri";
 import { useFetchImages, useFetchNfts } from "@/hooks";
 import { Work_Sans } from "@next/font/google";
 import clsx from "clsx";
@@ -46,7 +47,7 @@ export function Prompt() {
     try {
       axios({
         method: "POST",
-        url: `/api/prompt-search?prompt=${prompt}&cursor=${cursor}`,
+        url: `/api/prompt-search?prompt=${searchParam}&cursor=${cursor}`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -63,11 +64,7 @@ export function Prompt() {
 
   useEffect(() => {
     getImages();
-  }, [prompt]);
-
-  useEffect(() => {
-    console.log("cursor", cursor);
-  }, [cursor]);
+  }, [searchParam]);
 
   useEffect(() => {
     hoverRef.current!.style.width = `${item1Ref.current?.offsetWidth}px`;
@@ -114,17 +111,30 @@ export function Prompt() {
 
       {tab === "prompt" ? (
         <>
-          <input
-            className="bg-prompt-input px-6 py-4 rounded-md w-full"
-            type="text"
-            placeholder="✏️Write a prompt to create your Vykt"
-            onChange={(e) => setPrompt(e.target.value)}
-            onKeyDown={(e) => {
-              if (prompt && prompt.length > 0 && e.key === "Enter") {
+          <div className="flex bg-prompt-input rounded-md">
+            <input
+              className="bg-prompt-input px-6 py-4 rounded-md w-full"
+              type="text"
+              placeholder="✏️Write a prompt to create your Vykt"
+              onChange={(e) => setPrompt(e.target.value)}
+              onKeyDown={(e) => {
+                if (prompt && prompt.length > 0 && e.key === "Enter") {
+                  setPromptImages([]);
+                  setSearchParam(prompt);
+                }
+              }}
+            />
+            <button
+              className="px-4 bg-prompt-input  rounded-r-md"
+              onClick={() => {
+                setPromptImages([]);
                 setSearchParam(prompt);
-              }
-            }}
-          />
+              }}
+            >
+              <RiSearch2Line className="text-white text-2xl" />
+            </button>
+          </div>
+
           <div
             id="scrollableDiv"
             className="scrollbar scrollbar-w-2 scrollbar-track-[#202738] scrollbar-thumb-rounded-full scrollbar-thumb-white overflow-y-scroll"

@@ -121,7 +121,7 @@ export function Prompt() {
               ))}
           </div>
         </>
-      ) : (
+      ) : nftData?.assets.length! > 0 ? (
         <div className="grid grid-cols-3 pt-20 justify-items-center scrollbar scrollbar-w-2 scrollbar-track-[#202738] scrollbar-thumb-rounded-full scrollbar-thumb-white  gap-x-2 h-full gap-y-2 overflow-y-scroll">
           {nftData &&
             nftData?.assets?.map((nft) => {
@@ -155,6 +155,10 @@ export function Prompt() {
                 );
               }
             })}
+        </div>
+      ) : (
+        <div className="flex justify-center items-center h-full ">
+          <p className="text-white text-2xl -mt-60">No NFTs found</p>
         </div>
       )}
     </div>

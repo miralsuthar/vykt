@@ -113,7 +113,7 @@ export function Prompt() {
         <>
           <div className="flex bg-prompt-input rounded-md">
             <input
-              className="bg-prompt-input px-6 py-4 rounded-md w-full"
+              className="bg-prompt-input px-6 py-4 outline-none rounded-md w-full"
               type="text"
               placeholder="✏️Write a prompt to create your Vykt"
               onChange={(e) => setPrompt(e.target.value)}

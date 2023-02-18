@@ -21,6 +21,7 @@
     "react-dom": "^18.2.0",
     "react-easy-crop": "^4.6.3",
     "react-icons": "^4.7.1",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-modal": "^3.16.1",
     "uuid": "^9.0.0",
     "wagmi": "^0.11.5",

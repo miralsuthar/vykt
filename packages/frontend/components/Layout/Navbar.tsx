@@ -25,8 +25,6 @@ const navButtonStyles = clsx(`
 export function Navbar() {
   const router = useRouter();
 
-  console.log("route", router.route);
-
   const menuRef = useRef<HTMLDivElement>(null);
   const hoverRef = useRef<HTMLDivElement>(null);
   const item1Ref = useRef<HTMLAnchorElement>(null);

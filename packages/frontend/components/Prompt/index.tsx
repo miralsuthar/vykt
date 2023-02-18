@@ -9,7 +9,7 @@ import { useAccount } from "wagmi";
 import { NftImageCard } from "./NftImageCard";
 import { PromptImageCard } from "./PromptImageCard";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { SearchResponse, Image } from "@/utils/types";
+import { SearchResponse, Image, NftResponse, NftAsset } from "@/utils/types";
 import axios from "axios";
 
 const WorkSans = Work_Sans({
@@ -33,6 +33,10 @@ export function Prompt() {
   const [tab, setTab] = useState<"prompt" | "nfts">("prompt");
   const [promptData, setPromptData] = useState<SearchResponse | null>(null);
   const [promptImages, setPromptImages] = useState<Image[]>([]);
+  const [nftPage, setNftPage] = useState<number>(1);
+
+  const [nftData, setNftData] = useState<NftResponse | null>(null);
+  const [nftImages, setNftImages] = useState<string[]>([]);
 
   const menuRef = useRef<HTMLDivElement>(null);
   const hoverRef = useRef<HTMLDivElement>(null);
@@ -40,8 +44,6 @@ export function Prompt() {
   const item2Ref = useRef<HTMLButtonElement>(null);
 
   const { setImage } = useContext(ImageContext);
-
-  const { data: nftData } = useFetchNfts(address as string);
 
   function getImages() {
     try {
@@ -59,6 +61,31 @@ export function Prompt() {
       });
     } catch (err) {
       console.error(err);
+    }
+  }
+
+  function getNfts() {
+    try {
+      axios({
+        method: "GET",
+        url: `/api/fetch-nfts?address=0x34aA3F359A9D614239015126635CE7732c18fDF3&page=${nftPage}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => {
+        setNftData(res.data);
+        const resImages = res.data.assets.map(
+          (nft: NftAsset) => nft?.imageUrl!
+        );
+        console.log("resImages", resImages);
+        console.log("nftImages length", nftImages.length);
+        setNftImages([...nftImages, ...resImages]);
+        if (nftPage < res.data.totalPages) {
+          setNftPage(res.data.pageNumber + 1);
+        }
+      });
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -102,6 +129,7 @@ export function Prompt() {
               hoverRef.current!.style.width = `${item2Ref.current?.offsetWidth}px`;
               hoverRef.current!.style.transform = `translateX(${item2Ref.current?.offsetLeft}px)`;
               setTab("nfts");
+              getNfts();
             }}
           >
             📷 NFTs
@@ -148,7 +176,7 @@ export function Prompt() {
               loader={<div></div>}
               scrollableTarget="scrollableDiv"
             >
-              <div className="grid grid-cols-3 justify-items-center gap-x-2 h-full gap-y-2">
+              <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 justify-items-center gap-x-2 h-full gap-y-2">
                 {promptImages.length > 0 &&
                   promptImages.map((image) => (
                     <PromptImageCard
@@ -174,39 +202,57 @@ export function Prompt() {
           </div>
         </>
       ) : nftData?.assets.length! > 0 ? (
-        <div className="grid grid-cols-3 pt-20 justify-items-center scrollbar scrollbar-w-2 scrollbar-track-[#202738] scrollbar-thumb-rounded-full scrollbar-thumb-white  gap-x-2 h-full gap-y-2 overflow-y-scroll">
-          {nftData &&
-            nftData?.assets?.map((nft) => {
-              const extension = nft?.imageUrl?.split(".")?.pop();
-              // exclude videos and gifs
-              if (extension === "mp4" || extension === "gif") {
-                return;
-              }
+        <div
+          id="scrollableNFTDiv"
+          className="scrollbar scrollbar-w-2 scrollbar-track-[#202738] scrollbar-thumb-rounded-full scrollbar-thumb-white  gap-x-2 h-full gap-y-2 overflow-y-scroll"
+        >
+          <InfiniteScroll
+            dataLength={nftImages ? nftImages.length! : 0} //This is important field to render the next data
+            next={() => {
+              getNfts();
+            }}
+            hasMore={true}
+            loader={<div></div>}
+            scrollableTarget="scrollableNFTDiv"
+          >
+            <div className=" grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 pt-20 justify-items-center gap-y-5">
+              {nftImages &&
+                nftImages.map((nft, id) => {
+                  const extension = nft?.split(".")?.pop();
+                  // exclude videos and gifs
+                  if (extension === "mp4" || extension === "gif") {
+                    return;
+                  }
 
-              if (nft?.imageUrl) {
-                return (
-                  <NftImageCard
-                    onClick={() => {
-                      fetch(nft.imageUrl!)
-                        .then((res) => res.blob())
-                        .then((nftData) =>
-                          setImage!(
-                            new File([nftData], "image", {
-                              type: nftData.type,
-                            })
+                  fetch(nft).catch((err) => {
+                    return;
+                  });
+
+                  return (
+                    <NftImageCard
+                      onClick={() => {
+                        fetch(nft)
+                          .then((res) => res.blob())
+                          .then((nftData) =>
+                            setImage!(
+                              new File([nftData], "image", {
+                                type: nftData.type,
+                              })
+                            )
                           )
-                        );
-                      setSelectedImage(`${nft.name}-${nft.collectionTokenId}`);
-                    }}
-                    src={nft.imageUrl}
-                    key={`${nft.name}-${nft.collectionTokenId}`}
-                    isSelected={
-                      `${nft.name}-${nft.collectionTokenId}` === selectedImage
-                    }
-                  />
-                );
-              }
-            })}
+                          .catch((err) => {
+                            return;
+                          });
+                        setSelectedImage(String(id));
+                      }}
+                      src={nft}
+                      key={id}
+                      isSelected={String(id) === selectedImage}
+                    />
+                  );
+                })}
+            </div>
+          </InfiniteScroll>
         </div>
       ) : (
         <div className="flex justify-center items-center h-full ">

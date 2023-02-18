@@ -23,11 +23,11 @@ export function PromptImageCard({ src, onClick, isSelected }: ImageCardProps) {
         src={src}
         // sizes="(max-width: 640px) 10vw,
         // (max-width: 1200px) 30vw,"
-        width={300}
-        height={300}
+        width={350}
+        height={350}
         alt="image"
         loading="lazy"
-        className="object-cover object-center"
+        className="object-cover h-full w-full"
       />
     </div>
   );

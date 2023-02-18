@@ -41,7 +41,7 @@ export default function Create() {
         </section>
       ) : (
         <section className="text-white text-[3rem] flex h-full justify-center items-center">
-          <p>Opps! Is seva ka labh lene ke liye krupya apna batua jode.</p>
+          <p>Opps! Please connect your wallet to proceed 😊</p>
         </section>
       )}
     </div>

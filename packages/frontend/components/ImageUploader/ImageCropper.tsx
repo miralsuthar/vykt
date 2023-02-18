@@ -74,7 +74,7 @@ export function ImageCropper({
       className={`flex aspect-square bg-transparent ${
         !image
           ? "border-[5px] border-dotted border-gray-400"
-          : "shadow-md shadow-blue-900"
+          : "shadow-md shadow-gray-900"
       }  text-white rounded-lg relative justify-center items-center overflow-hidden`}
       //@ts-ignore
       onDrop={handleDrop}
@@ -112,7 +112,7 @@ export function ImageCropper({
       )}
       {enableCrop && (
         <button
-          className="absolute top-2 right-2 z-10 text-white p-2 rounded-md bg-blue-600"
+          className="absolute top-2 right-2 z-10 text-white p-2 rounded-md bg-gray-800"
           onClick={() => {
             setEnableCrop((prev: boolean) => !prev);
             showCroppedImage();

@@ -36,6 +36,12 @@ export function Navbar() {
     if (router.route === "/") {
       hoverRef.current!.style.width = `0px`;
       hoverRef.current!.style.transform = `translateX(0px)`;
+    } else if (router.route === "/create") {
+      hoverRef.current!.style.width = `${item1Ref.current?.offsetWidth}px`;
+      hoverRef.current!.style.transform = `translateX(${item1Ref.current?.offsetLeft}px)`;
+    } else if (router.route === "/history") {
+      hoverRef.current!.style.width = `${item2Ref.current?.offsetWidth}px`;
+      hoverRef.current!.style.transform = `translateX(${item2Ref.current?.offsetLeft}px)`;
     }
   }, [router.route]);
 
@@ -53,7 +59,6 @@ export function Navbar() {
             ref={hoverRef}
             className="absolute top-0 left-0 h-full bg-gray-500 rounded-md opacity-30 transition-all duration-500"
           ></span>
-
           <Link
             ref={item1Ref}
             className={`${navButtonStyles} ${WorkSans.className}`}

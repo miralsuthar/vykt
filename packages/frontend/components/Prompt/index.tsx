@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 
 import { ImageContext } from "@/contexts";
 import { useFetchImages, useFetchNfts } from "@/hooks";
-import { Major_Mono_Display, Work_Sans } from "@next/font/google";
+import { Work_Sans } from "@next/font/google";
 import clsx from "clsx";
 import { useAccount } from "wagmi";
 import { NftImageCard } from "./NftImageCard";
@@ -37,6 +37,10 @@ export function Prompt() {
 
   const { data: promptData } = useFetchImages(searchParam, cursor);
   const { data: nftData } = useFetchNfts(address as string);
+
+  useEffect(() => {
+    console.log("data", nftData);
+  }, [nftData]);
 
   useEffect(() => {
     hoverRef.current!.style.width = `${item1Ref.current?.offsetWidth}px`;
@@ -130,6 +134,18 @@ export function Prompt() {
               if (nft?.imageUrl) {
                 return (
                   <NftImageCard
+                    onClick={() => {
+                      fetch(nft.imageUrl!)
+                        .then((res) => res.blob())
+                        .then((nftData) =>
+                          setImage!(
+                            new File([nftData], "image", {
+                              type: nftData.type,
+                            })
+                          )
+                        );
+                      setSelectedImage(`${nft.name}-${nft.collectionTokenId}`);
+                    }}
                     src={nft.imageUrl}
                     key={`${nft.name}-${nft.collectionTokenId}`}
                     isSelected={

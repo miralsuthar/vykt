@@ -64,7 +64,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       <RainbowKitProvider coolMode chains={chains}>
         <Layout>
           <NextHead>
-            <title>vykt</title>
+            <title>Vykt</title>
           </NextHead>
           <Component {...pageProps} />
         </Layout>

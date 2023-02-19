@@ -1,5 +1,7 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Work_Sans } from "@next/font/google";
+import { VyktProfile } from "vykt-sdk";
+import { useAccount } from "wagmi";
 
 const workSans = Work_Sans({
   weight: "600",
@@ -7,6 +9,8 @@ const workSans = Work_Sans({
 });
 
 export const CustomConnectButton = () => {
+  const { address } = useAccount();
+
   return (
     <ConnectButton.Custom>
       {({
@@ -44,9 +48,9 @@ export const CustomConnectButton = () => {
                   <button
                     onClick={openConnectModal}
                     type="button"
-                    className={`bg-blue-500 text-white rounded-md px-3 hover:scale-105 transition-all duration-300 active:scale-90 py-1 text-lg ${workSans.className}`}
+                    className={`bg-[#613DC1] text-white rounded-md px-3 hover:scale-105 transition-all duration-300 active:scale-90 py-1 text-lg ${workSans.className}`}
                   >
-                    Connect Wallet
+                    Connect
                   </button>
                 );
               }
@@ -92,8 +96,16 @@ export const CustomConnectButton = () => {
                   <button
                     onClick={openAccountModal}
                     type="button"
-                    className={`border-[1px] border-gray-400 text-[1rem] px-4 hover:scale-105 transition-all duration-300 active:scale-95 py-2 rounded-md ${workSans.className}`}
+                    className={`flex gap-x-2 border-[1px] border-gray-400 text-[1rem] px-4 hover:scale-105 transition-all duration-300 active:scale-95 py-2 rounded-md ${workSans.className}`}
                   >
+                    <VyktProfile
+                      address={address as string}
+                      style={{
+                        width: 24,
+                        height: 24,
+                      }}
+                      type="circle"
+                    />
                     {account.displayName}
                   </button>
                 </div>

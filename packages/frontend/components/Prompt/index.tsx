@@ -2,7 +2,6 @@ import { useContext, useEffect, useRef, useState } from "react";
 
 import { ImageContext } from "@/contexts";
 import { RiSearch2Line } from "react-icons/ri";
-import { useFetchImages, useFetchNfts } from "@/hooks";
 import { Work_Sans } from "@next/font/google";
 import clsx from "clsx";
 import { useAccount } from "wagmi";

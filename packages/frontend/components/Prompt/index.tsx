@@ -68,18 +68,20 @@ export function Prompt() {
     try {
       axios({
         method: "GET",
-        url: `/api/fetch-nfts?address=0x34aA3F359A9D614239015126635CE7732c18fDF3&page=${nftPage}`,
+        url: `/api/fetch-nfts?address=${address}&page=${nftPage}`,
         headers: {
           "Content-Type": "application/json",
         },
       }).then((res) => {
         setNftData(res.data);
-        const resImages = res.data.assets.map(
-          (nft: NftAsset) => nft?.imageUrl!
-        );
-        console.log("resImages", resImages);
-        console.log("nftImages length", nftImages.length);
-        setNftImages([...nftImages, ...resImages]);
+
+        const imageUrls = res.data.assets.map((asset: NftAsset) => {
+          if (asset.imageUrl) {
+            return asset.imageUrl;
+          }
+        });
+
+        setNftImages([...nftImages, ...imageUrls]);
         if (nftPage < res.data.totalPages) {
           setNftPage(res.data.pageNumber + 1);
         }
@@ -223,10 +225,6 @@ export function Prompt() {
                   if (extension === "mp4" || extension === "gif") {
                     return;
                   }
-
-                  fetch(nft).catch((err) => {
-                    return;
-                  });
 
                   return (
                     <NftImageCard

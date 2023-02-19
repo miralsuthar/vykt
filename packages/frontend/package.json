@@ -21,8 +21,10 @@
     "react-dom": "^18.2.0",
     "react-easy-crop": "^4.6.3",
     "react-icons": "^4.7.1",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-modal": "^3.16.1",
     "uuid": "^9.0.0",
+    "vykt-sdk": "^0.2.1",
     "wagmi": "^0.11.5",
     "web3.storage": "^4.4.0"
   },

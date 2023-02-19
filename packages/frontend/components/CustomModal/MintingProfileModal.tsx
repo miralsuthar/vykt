@@ -32,7 +32,7 @@ export function MintingProfileModal({
           className="text-white flex flex-col gap-6 text-3xl px-32 overflow-hidden py-20 font-bold text-center"
         >
           <Confetti
-            width={congratulationDiv.current?.offsetWidth}
+            width={congratulationDiv.current?.clientWidth || 650}
             height={450}
           />
           <p>🎉</p>

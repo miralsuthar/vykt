@@ -10,7 +10,7 @@ const unna = Unna({
 });
 
 export default function History() {
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
   const [images, setImages] = useState<string[]>();
 
   const { data, isError, isLoading } = useContractRead({
@@ -27,24 +27,34 @@ export default function History() {
   }, [data, isLoading]);
 
   return (
-    <section className="w-full h-full flex flex-col gap-20 justify-start items-center">
-      <h1 className={`${unna.className} text-white text-[4rem]`}>History</h1>
-      <div className="flex justify-center items-center gap-10 flex-wrap">
-        {images && images.length > 0 ? (
-          images?.map((image, index) => (
-            <img
-              key={index}
-              src={image}
-              className="w-52 h-52 rounded-md"
-              alt=""
-            />
-          ))
-        ) : (
-          <p className="text-center text-gray-500 -mt-5">
-            You don't have any history, create your vykt to make history.
-          </p>
-        )}
-      </div>
-    </section>
+    <>
+      {isConnected ? (
+        <section className="w-full h-full flex flex-col gap-20 justify-start items-center">
+          <h1 className={`${unna.className} text-white text-[4rem]`}>
+            History
+          </h1>
+          <div className="flex justify-center items-center gap-10 flex-wrap">
+            {images && images.length > 0 ? (
+              images?.map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  className="w-52 h-52 rounded-md"
+                  alt=""
+                />
+              ))
+            ) : (
+              <p className="text-center text-gray-500 -mt-5">
+                You don't have any history, create your vykt to make history.
+              </p>
+            )}
+          </div>
+        </section>
+      ) : (
+        <section className="text-white text-[3rem] flex h-full justify-center items-center">
+          <p>Opps! Please connect your wallet to proceed 😊</p>
+        </section>
+      )}
+    </>
   );
 }

@@ -20,7 +20,7 @@ export function useFetchNfts(address: string) {
       }
     }
     getImages();
-  }, [prompt]);
+  }, [address]);
 
   return { data };
 }

@@ -41,9 +41,6 @@ export function ImageDropper() {
 
   const { isLoading, isSuccess } = useWaitForTransaction({
     hash: data?.hash,
-    onSuccess(data) {
-      console.log("success", data);
-    },
   });
 
   const handleSaveVykt = async () => {
@@ -64,21 +61,10 @@ export function ImageDropper() {
     }
   };
 
-  useEffect(() => {
-    console.log("data hash", data?.hash);
-  }, [data?.hash]);
-
   const mint = async () => {
     if (ipfsUri) {
       write?.();
       setIsImageSaving(isLoading);
-    }
-    if (isError) {
-      console.log(error?.message);
-    }
-    if (isSuccess) {
-      console.log("success");
-      console.log("data", data);
     }
   };
 

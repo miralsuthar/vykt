@@ -57,7 +57,6 @@ export function Prompt() {
         setPromptData(res.data);
         setPromptImages([...promptImages, ...res.data.images]);
         setCursor(res.data.nextCursor);
-        console.log("res", res.data.images.length);
       });
     } catch (err) {
       console.error(err);
